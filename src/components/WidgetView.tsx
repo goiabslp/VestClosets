@@ -69,16 +69,15 @@ export const WidgetView: React.FC = () => {
           <div className="flex items-center justify-center gap-4 mb-8 w-full">
             {/* Left Circle - Produto */}
             <div className="flex flex-col items-center gap-4">
-              <div 
+              <div
                 onClick={() => !isProcessing && clothingInputRef.current?.click()}
-                className={`w-28 h-28 rounded-full flex items-center justify-center overflow-hidden relative shadow-md transition-all ${
-                  isProcessing ? "opacity-50 cursor-not-allowed" : "cursor-pointer hover:shadow-lg bg-gray-100"
-                }`}
+                className={`w-28 h-28 rounded-full flex items-center justify-center overflow-hidden relative shadow-md transition-all ${isProcessing ? "opacity-50 cursor-not-allowed" : "cursor-pointer hover:shadow-lg bg-gray-100"
+                  }`}
               >
-                <input 
-                  type="file" 
-                  ref={clothingInputRef} 
-                  className="hidden" 
+                <input
+                  type="file"
+                  ref={clothingInputRef}
+                  className="hidden"
                   accept="image/jpeg, image/jpg, image/png"
                   onChange={(e) => handleFileChange(e, 'clothing')}
                   disabled={isProcessing}
@@ -99,16 +98,15 @@ export const WidgetView: React.FC = () => {
 
             {/* Right Circle - Modelo */}
             <div className="flex flex-col items-center gap-4">
-              <div 
+              <div
                 onClick={() => !isProcessing && modelInputRef.current?.click()}
-                className={`w-28 h-28 rounded-full flex items-center justify-center overflow-hidden transition-all ${
-                  isProcessing ? "opacity-50 cursor-not-allowed" : "cursor-pointer hover:bg-gray-300 bg-[#E5E5E5]"
-                }`}
+                className={`w-28 h-28 rounded-full flex items-center justify-center overflow-hidden transition-all ${isProcessing ? "opacity-50 cursor-not-allowed" : "cursor-pointer hover:bg-gray-300 bg-[#E5E5E5]"
+                  }`}
               >
-                <input 
-                  type="file" 
-                  ref={modelInputRef} 
-                  className="hidden" 
+                <input
+                  type="file"
+                  ref={modelInputRef}
+                  className="hidden"
                   accept="image/jpeg, image/jpg, image/png"
                   onChange={(e) => handleFileChange(e, 'model')}
                   disabled={isProcessing}
@@ -138,62 +136,62 @@ export const WidgetView: React.FC = () => {
         </>
       ) : (
         <div className="w-full max-w-sm flex flex-col items-center">
-            <div className="text-center mb-6">
-                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">
-                  Resultado
-                </span>
-                <h2 className="text-2xl font-bold text-gray-800 mt-1 tracking-tight">Seu novo look</h2>
-            </div>
-            
-            <div className="w-full aspect-[3/4] bg-gray-100 rounded-lg overflow-hidden shadow-inner mb-6 relative">
-              <img
-                alt="Resultado gerado pela IA"
-                className="w-full h-full object-contain"
-                src={resultImage}
-              />
-            </div>
+          <div className="text-center mb-6">
+            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+              Resultado
+            </span>
+            <h2 className="text-2xl font-bold text-gray-800 mt-1 tracking-tight">Seu novo look</h2>
+          </div>
 
-            <div className="flex flex-col w-full gap-3">
-              <button
-                onClick={async () => {
-                  try {
-                    const response = await fetch(resultImage);
-                    const blob = await response.blob();
-                    const blobUrl = URL.createObjectURL(blob);
-                    const link = document.createElement('a');
-                    link.href = blobUrl;
-                    link.download = `digital-atelier-${Date.now()}.png`;
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                    URL.revokeObjectURL(blobUrl);
-                  } catch (error) {
-                    console.error('Download error:', error);
-                    const link = document.createElement('a');
-                    link.href = resultImage;
-                    link.download = `digital-atelier-${Date.now()}.png`;
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                  }
-                }}
-                className="flex items-center justify-center gap-2 bg-[#525252] hover:bg-[#3D3D3D] text-white transition-colors py-3.5 rounded shadow text-xs uppercase tracking-widest font-bold"
-              >
-                <span className="material-symbols-outlined" style={{ fontSize: '1.25rem' }}>download</span>
-                Salvar Imagem
-              </button>
+          <div className="w-full aspect-[3/4] bg-gray-100 rounded-lg overflow-hidden shadow-inner mb-6 relative">
+            <img
+              alt="Resultado gerado pela IA"
+              className="w-full h-full object-contain"
+              src={resultImage}
+            />
+          </div>
 
-              <button
-                onClick={clearStates}
-                className="flex items-center justify-center gap-2 bg-white text-gray-600 hover:bg-gray-50 hover:text-gray-800 transition-colors py-3.5 rounded shadow-sm border border-gray-200 text-xs uppercase tracking-widest font-bold"
-              >
-                <span className="material-symbols-outlined" style={{ fontSize: '1.25rem' }}>refresh</span>
-                Tentar Outra
-              </button>
-            </div>
+          <div className="flex flex-col w-full gap-3">
+            <button
+              onClick={async () => {
+                try {
+                  const response = await fetch(resultImage);
+                  const blob = await response.blob();
+                  const blobUrl = URL.createObjectURL(blob);
+                  const link = document.createElement('a');
+                  link.href = blobUrl;
+                  link.download = `digital-atelier-${Date.now()}.png`;
+                  document.body.appendChild(link);
+                  link.click();
+                  document.body.removeChild(link);
+                  URL.revokeObjectURL(blobUrl);
+                } catch (error) {
+                  console.error('Download error:', error);
+                  const link = document.createElement('a');
+                  link.href = resultImage;
+                  link.download = `digital-atelier-${Date.now()}.png`;
+                  document.body.appendChild(link);
+                  link.click();
+                  document.body.removeChild(link);
+                }
+              }}
+              className="flex items-center justify-center gap-2 bg-[#525252] hover:bg-[#3D3D3D] text-white transition-colors py-3.5 rounded shadow text-xs uppercase tracking-widest font-bold"
+            >
+              <span className="material-symbols-outlined" style={{ fontSize: '1.25rem' }}>download</span>
+              Salvar Imagem
+            </button>
+
+            <button
+              onClick={clearStates}
+              className="flex items-center justify-center gap-2 bg-white text-gray-600 hover:bg-gray-50 hover:text-gray-800 transition-colors py-3.5 rounded shadow-sm border border-gray-200 text-xs uppercase tracking-widest font-bold"
+            >
+              <span className="material-symbols-outlined" style={{ fontSize: '1.25rem' }}>refresh</span>
+              Tentar Outra
+            </button>
+          </div>
         </div>
       )}
-      
+
       <TryOnLoadingModal isVisible={isProcessing} />
     </div>
   );

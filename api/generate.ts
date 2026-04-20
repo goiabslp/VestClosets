@@ -14,7 +14,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    // 1. Recebendo as imagens do seu front-end (espera-se que venham em Base64 ou URL pública)
+    // 1. Recebendo as imagens do seu front-end
     const { modelImage, clothingImage } = req.body;
 
     if (!modelImage || !clothingImage) {
@@ -28,11 +28,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       "cuuupid/idm-vton:0513734a452173b8173e907e3a59d19a36266e55b48528559432bd21c7d7e985",
       {
         input: {
-          human_img: modelImage,      // Corrigido: human_img
+          human_img: modelImage,      // A foto original do cliente/modelo
           garm_img: clothingImage,    // A foto da roupa
-          garment_des: "a piece of clothing", // Descrição genérica ajuda a IA
           category: "upper_body",     // Pode ser 'upper_body', 'lower_body' ou 'dresses'
-          steps: 30                   // Garante melhor qualidade na renderização
+
+          // 🌟 PARÂMETROS DE ALTA QUALIDADE E PROPORÇÃO 🌟
+          crop: false, // O MAIS IMPORTANTE: Impede cortes e mantém 100% da proporção original da foto
+          steps: 35,   // Elevado para 35: Aumenta o processamento para garantir texturas perfeitas e fotorealistas
+          garment_des: "A high quality, highly detailed clothing item, 4k resolution, cinematic lighting, ultra sharp realism", // Força a IA a aplicar um estilo visual premium
         }
       }
     );
@@ -40,7 +43,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     // 3. O Replicate retorna a URL da imagem processada com sucesso!
     console.log("Magia concluída!");
 
-    // 🌟 NOVO: Extraindo a URL real de dentro do objeto complexo do Replicate
+    // Extraindo a URL real de dentro do objeto complexo do Replicate
     const outputData = Array.isArray(output) ? output[0] : output;
 
     let imageUrl = "";
