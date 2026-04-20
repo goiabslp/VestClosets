@@ -1,4 +1,4 @@
-(function() {
+(function () {
   // 1. Cria o Botão Flutuante
   const button = document.createElement('button');
   button.innerText = '👕 Provar Roupa';
@@ -18,31 +18,21 @@
     display: none; overflow: hidden; background: white;
   `;
 
-  // 3. O Iframe apontando para o seu site (Use localhost para testar agora)
+  // 🌟 O NOVO DETETIVE: Procura a imagem ANTES de criar o Iframe
+  const ogImage = document.querySelector('meta[property="og:image"]');
+  const imgUrl = (ogImage && ogImage.content) ? ogImage.content : '';
+
+  if (imgUrl) {
+    console.log("🕵️‍♂️ Detetive achou a imagem da roupa:", imgUrl);
+  } else {
+    console.log("Tag og:image não encontrada nesta página.");
+  }
+
+  // 3. O Iframe apontando para o seu site, levando a URL da imagem como bagagem
   const iframe = document.createElement('iframe');
-  iframe.src = 'http://localhost:3000/widget'; 
+  iframe.src = `https://vest-closets.vercel.app/widget?roupa=${encodeURIComponent(imgUrl)}`;
   iframe.style.cssText = 'width: 100%; height: 100%; border: none;';
   modalContainer.appendChild(iframe);
-
-  // 🌟 A MÁGICA ACONTECE AQUI: Quando o Iframe terminar de carregar
-  iframe.onload = () => {
-    // Procura a tag og:image escondida no HTML da loja
-    const ogImage = document.querySelector('meta[property="og:image"]');
-    
-    if (ogImage && ogImage.content) {
-      console.log("🕵️‍♂️ Detetive achou a imagem da roupa:", ogImage.content);
-      
-      // Envia a URL da imagem para dentro do seu React
-      if (iframe.contentWindow) {
-        iframe.contentWindow.postMessage(
-          { type: 'SET_CLOTHING', url: ogImage.content }, 
-          '*'
-        );
-      }
-    } else {
-      console.log("Tag og:image não encontrada nesta página.");
-    }
-  };
 
   // 4. Lógica de Abrir/Fechar o Modal
   button.onclick = () => {

@@ -10,6 +10,14 @@ export default defineConfig({
       '@': '/src',
     },
   },
+  // 🌟 AQUI ESTÁ A MÁGICA: Configuração do Servidor Vite
+  server: {
+    port: 3000, // Garante que vai rodar na porta 3000
+    cors: true, // Libera o CORS
+    headers: {
+      "Access-Control-Allow-Origin": "*", // Diz ao navegador que qualquer "loja" pode acessar
+    },
+  },
   test: {
     globals: true,
     environment: 'jsdom',

@@ -15,17 +15,25 @@ export const WidgetView: React.FC = () => {
     clearStates,
   } = useVirtualTryOn();
 
-  // 🌟 O RECEPTOR: Escuta a mensagem enviada pelo widget.js da loja
+  // 🌟 O NOVO RECEPTOR: Olha para a URL assim que a tela nasce (Query Params)
   React.useEffect(() => {
-    const handleMessage = async (event: MessageEvent) => {
-      if (event.data?.type === 'SET_CLOTHING' && event.data?.url) {
+    const carregarImagemDaUrl = async () => {
+      // 1. Lê os parâmetros da URL (ex: ?roupa=https://...)
+      const params = new URLSearchParams(window.location.search);
+      const urlDaRoupa = params.get('roupa');
+
+      // 2. Se achou a imagem na "bagagem", faz o download
+      if (urlDaRoupa) {
         try {
-          console.log("Receptor React: Processando imagem automática da loja...", event.data.url);
-          // Baixa a imagem externa e converte para um arquivo compatível com o hook
-          const response = await fetch(event.data.url);
+          console.log("Receptor React: Processando imagem da URL...", urlDaRoupa);
+          const response = await fetch(urlDaRoupa);
+
+          if (!response.ok) throw new Error('Falha ao baixar imagem');
+
           const blob = await response.blob();
           const file = new File([blob], "roupa-da-loja.jpg", { type: blob.type || "image/jpeg" });
-          
+
+          // 3. Joga no seu estado pronto para uso!
           handleSetClothing(file);
         } catch (error) {
           console.error("Erro ao processar imagem automática da loja:", error);
@@ -33,8 +41,7 @@ export const WidgetView: React.FC = () => {
       }
     };
 
-    window.addEventListener('message', handleMessage);
-    return () => window.removeEventListener('message', handleMessage);
+    carregarImagemDaUrl();
   }, [handleSetClothing]);
 
   return (
@@ -90,7 +97,7 @@ export const WidgetView: React.FC = () => {
               </span>
               Salvar Imagem
             </button>
-            
+
             <button
               onClick={clearStates}
               className="flex items-center justify-center gap-3 bg-surface-container-high text-on-surface hover:bg-surface-container-highest transition-colors px-6 py-4 rounded-xl shadow-sm border border-outline-variant/20 font-label text-xs uppercase tracking-[0.05em] font-bold active:scale-[0.98]"
