@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>The Digital Atelier - Virtual Try-On</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary": "#993100",
+                        "tertiary-fixed-dim": "#ffb59b",
+                        "on-tertiary-container": "#ffece6",
+                        "on-secondary-fixed": "#001356",
+                        "inverse-on-surface": "#f0f1f1",
+                        "on-background": "#1a1c1c",
+                        "surface": "#f9f9f9",
+                        "on-tertiary-fixed-variant": "#812800",
+                        "error": "#ba1a1a",
+                        "surface-dim": "#dadada",
+                        "surface-tint": "#5e5e5e",
+                        "secondary-container": "#2e5bff",
+                        "surface-variant": "#e2e2e2",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-highest": "#e2e2e2",
+                        "on-error-container": "#93000a",
+                        "on-secondary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "inverse-surface": "#2f3131",
+                        "on-surface-variant": "#434656",
+                        "primary-container": "#6d6d6d",
+                        "background": "#f9f9f9",
+                        "primary-fixed": "#e2e2e2",
+                        "on-surface": "#1a1c1c",
+                        "on-primary-fixed": "#1b1b1b",
+                        "secondary": "#0040e0",
+                        "surface-bright": "#f9f9f9",
+                        "primary-fixed-dim": "#c6c6c6",
+                        "tertiary-fixed": "#ffdbcf",
+                        "outline": "#747688",
+                        "tertiary-container": "#c24100",
+                        "on-tertiary-fixed": "#380d00",
+                        "on-secondary-container": "#efefff",
+                        "surface-container": "#eeeeee",
+                        "primary": "#555555",
+                        "outline-variant": "#c4c5d9",
+                        "secondary-fixed": "#dde1ff",
+                        "on-primary-fixed-variant": "#474747",
+                        "surface-container-low": "#f3f3f3",
+                        "secondary-fixed-dim": "#b8c3ff",
+                        "on-primary-container": "#f0f0f0",
+                        "surface-container-high": "#e8e8e8",
+                        "on-secondary-fixed-variant": "#0035be",
+                        "inverse-primary": "#c6c6c6",
+                        "error-container": "#ffdad6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline": ["Inter"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .glass-panel {
+            background-color: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .cta-gradient {
+            background: linear-gradient(135deg, #0040e0 0%, #2e5bff 100%);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen flex flex-col">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-neutral-50/80 dark:bg-neutral-950/80 backdrop-blur-xl border-none bg-neutral-100/50 dark:bg-neutral-900/50 shadow-[0_40px_60px_-15px_rgba(0,0,0,0.04)] font-inter tracking-[-0.02em] antialiased">
+<div class="max-w-screen-2xl mx-auto px-8 md:px-16 py-6 flex justify-between items-center">
+<div class="text-xl font-bold tracking-[0.05em] uppercase text-neutral-900 dark:text-neutral-50">
+                The Digital Atelier
+            </div>
+<button class="bg-secondary text-on-secondary px-6 py-2 rounded uppercase text-[10px] tracking-[0.05em] font-medium hover:bg-secondary-container transition-colors active:scale-[0.98]">
+                Login
+            </button>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="flex-grow pt-32 pb-24 px-8 md:px-16 max-w-screen-xl mx-auto w-full">
+<!-- Hero Section -->
+<section class="text-center mb-24">
+<h1 class="font-headline text-[3.5rem] leading-[1.1] tracking-[-0.02em] font-light mb-6 text-on-surface">
+                Experimente qualquer roupa, <br/><span class="font-bold">digitalmente</span>
+</h1>
+<p class="font-body text-lg text-on-surface-variant max-w-2xl mx-auto mb-16 leading-relaxed">
+                Utilizamos inteligência artificial avançada para sobrepor peças de vestuário em suas fotos com precisão milimétrica, preservando caimento, iluminação e texturas reais.
+            </p>
+<!-- How it Works Icons -->
+<div class="flex flex-col md:flex-row justify-center gap-12 md:gap-24">
+<div class="flex flex-col items-center">
+<div class="w-16 h-16 rounded-full bg-surface-container-highest flex items-center justify-center mb-4 text-secondary">
+<span class="material-symbols-outlined" style="font-size: 2rem; font-variation-settings: 'FILL' 0;">apparel</span>
+</div>
+<span class="font-label text-[10px] uppercase tracking-[0.05em] font-medium text-on-surface">Envie a roupa</span>
+</div>
+<div class="flex flex-col items-center">
+<div class="w-16 h-16 rounded-full bg-surface-container-highest flex items-center justify-center mb-4 text-secondary">
+<span class="material-symbols-outlined" style="font-size: 2rem; font-variation-settings: 'FILL' 0;">person</span>
+</div>
+<span class="font-label text-[10px] uppercase tracking-[0.05em] font-medium text-on-surface">Envie sua foto</span>
+</div>
+<div class="flex flex-col items-center">
+<div class="w-16 h-16 rounded-full bg-surface-container-highest flex items-center justify-center mb-4 text-secondary">
+<span class="material-symbols-outlined" style="font-size: 2rem; font-variation-settings: 'FILL' 0;">auto_awesome</span>
+</div>
+<span class="font-label text-[10px] uppercase tracking-[0.05em] font-medium text-on-surface">Veja a mágica</span>
+</div>
+</div>
+</section>
+<!-- Main Action Area -->
+<section class="mb-16">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<!-- Garment Upload -->
+<div class="bg-surface-container-lowest rounded-lg p-12 flex flex-col items-center justify-center border border-outline-variant/15 hover:bg-surface-container-low transition-colors duration-300 cursor-pointer min-h-[300px]">
+<span class="material-symbols-outlined text-outline mb-6" style="font-size: 3rem;">checkroom</span>
+<h3 class="font-label text-sm uppercase tracking-[0.05em] font-bold text-on-surface mb-2">Adicionar Roupa</h3>
+<p class="font-body text-sm text-outline text-center">Arraste a imagem ou clique para selecionar</p>
+</div>
+<!-- Model Upload -->
+<div class="bg-surface-container-lowest rounded-lg p-12 flex flex-col items-center justify-center border border-outline-variant/15 hover:bg-surface-container-low transition-colors duration-300 cursor-pointer min-h-[300px]">
+<span class="material-symbols-outlined text-outline mb-6" style="font-size: 3rem;">portrait</span>
+<h3 class="font-label text-sm uppercase tracking-[0.05em] font-bold text-on-surface mb-2">Adicionar Modelo</h3>
+<p class="font-body text-sm text-outline text-center">Arraste a imagem ou clique para selecionar</p>
+</div>
+</div>
+</section>
+<!-- CTA Action -->
+<div class="flex justify-center mb-32">
+<button class="cta-gradient text-on-secondary px-12 py-5 rounded uppercase font-label text-sm tracking-[0.05em] font-bold shadow-[0_20px_40px_-10px_rgba(0,64,224,0.3)] hover:opacity-90 transition-opacity active:scale-[0.98]">
+                Provar Roupa Agora
+            </button>
+</div>
+<!-- Result Area (Placeholder) -->
+<section class="max-w-4xl mx-auto">
+<div class="bg-surface-container rounded-lg p-8 relative overflow-hidden">
+<div class="aspect-[3/4] md:aspect-video w-full bg-surface-variant rounded flex items-center justify-center relative overflow-hidden">
+<!-- Placeholder Image -->
+<img alt="High fashion studio shot of a model wearing electric blue designer clothing against a stark white background" class="absolute inset-0 w-full h-full object-cover opacity-80 mix-blend-multiply" data-alt="High fashion studio shot of a model wearing electric blue designer clothing against a stark white background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC5jQTklNKJUnLgrHKXaZflZ-EgHAP5Wvu6AvGqn0pAkswBXq1QdEfgTG6Y-TdzKRO0w0-gc0W1wcHPCv-897ZeFuE0PVtSWDjWF-rcj6zashf6OKm4D-MNKbxXOj3ZcxfxrWpngjHqufCXv77sNAYYV2vbK6bPdIyzLrxMOfqb7vj1uYcv8S6n1q7DCEyhtigdDhGMpwVMn3nW1Hk2R13JvXQMcGGL1aVXcbF7-ltTwlDeTw6nJO4gswc-CaNxaWjfXjUWlIvKkrQ"/>
+<!-- Glass Control Hud -->
+<div class="absolute bottom-8 left-1/2 -translate-x-1/2 glass-panel px-8 py-4 rounded-full flex gap-6 items-center shadow-[0_20px_40px_-10px_rgba(26,28,28,0.1)] border border-outline-variant/15">
+<button class="flex items-center gap-2 text-on-surface hover:text-secondary transition-colors">
+<span class="material-symbols-outlined" style="font-size: 1.25rem;">download</span>
+<span class="font-label text-[10px] uppercase tracking-[0.05em] font-medium">Baixar Imagem</span>
+</button>
+<div class="w-px h-4 bg-outline-variant/30"></div>
+<button class="flex items-center gap-2 text-on-surface hover:text-secondary transition-colors">
+<span class="material-symbols-outlined" style="font-size: 1.25rem;">refresh</span>
+<span class="font-label text-[10px] uppercase tracking-[0.05em] font-medium">Tentar Outra</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full mt-auto bg-neutral-100 dark:bg-neutral-900 tonal background shift from surface to surface-container-low flat no shadows font-inter text-[10px] tracking-[0.05em] uppercase font-medium">
+<div class="flex flex-col md:flex-row justify-between items-center px-8 md:px-16 py-12 gap-6 max-w-screen-2xl mx-auto w-full">
+<div class="text-neutral-900 dark:text-neutral-50 font-bold">
+                © 2024 Digital Atelier. All rights reserved.
+            </div>
+<div class="flex gap-6">
+<a class="text-neutral-400 dark:text-neutral-500 hover:text-blue-600 dark:hover:text-blue-400 transition-colors ease-in-out duration-300" href="#">Privacy Policy</a>
+<a class="text-neutral-400 dark:text-neutral-500 hover:text-blue-600 dark:hover:text-blue-400 transition-colors ease-in-out duration-300" href="#">Terms of Service</a>
+<a class="text-neutral-400 dark:text-neutral-500 hover:text-blue-600 dark:hover:text-blue-400 transition-colors ease-in-out duration-300" href="#">Support</a>
+</div>
+</div>
+</footer>
+</body></html>
