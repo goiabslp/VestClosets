@@ -56,7 +56,7 @@ export const useVirtualTryOn = () => {
     setIsProcessing(false);
   };
 
-  const sendTryOnRequest = useCallback(async () => {
+  const sendTryOnRequest = useCallback(async (category: 'upper_body' | 'lower_body' | 'dresses') => {
     if (!clothingImage || !modelImage) {
       ModalService.error(
         'Adicione ambas as imagens respeitando os limites para processar.',
@@ -86,6 +86,7 @@ export const useVirtualTryOn = () => {
         body: JSON.stringify({
           clothingImage: base64Clothing,
           modelImage: base64Model,
+          category,
         }),
         signal: controller.signal,
       });

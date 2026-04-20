@@ -13,17 +13,33 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    // 1. Recebendo as imagens do seu front-end (espera-se que venham em Base64 ou URL pública)
-    // Deixei o 'category' dinâmico caso você queira enviar 'lower_body' no futuro
+    // 1. Recebendo as imagens e a categoria do seu front-end
     const { modelImage, clothingImage, category = "upper_body" } = req.body;
 
     if (!modelImage || !clothingImage) {
       return res.status(400).json({ error: 'Faltam imagens na requisição.' });
     }
 
-    console.log("Enviando imagens para a IA no Replicate...");
+    console.log(`Enviando imagens para a IA... Categoria detectada: ${category}`);
 
-    // 2. A Chamada Real para a IA (Novo Modelo IDM-VTON Oficial)
+    // 🌟 2. O CÉREBRO DO PROMPT: Muda a ordem dependendo do tipo de roupa
+    let promptEspecifico = "The EXACT garment shown in the reference image. Preserve all original patterns, textures, logos, colors, and cuts with 100% absolute fidelity. Fit naturally and realistically onto the model's body. 4k resolution, total sharpness, cinematic studio lighting, highly detailed.";
+
+    let promptNegativo = "modified design, wrong color, distorted pattern, missing details, altered logos, different fabric, unnatural fit, mutated clothes, blending with skin, blurry textures, bad anatomy, cropped head, cropped feet, bad lighting";
+
+    // Injeção cirúrgica de regras baseada na escolha do usuário
+    if (category === "dresses") {
+      promptEspecifico += " IMPORTANT: Fully preserve the SLEEVES, sleeve length, collar, and the full length of the skirt down to the legs. Do NOT remove sleeves.";
+      promptNegativo += ", missing sleeves, sleeveless, cut off skirt, shortened length";
+    } else if (category === "lower_body") {
+      promptEspecifico += " IMPORTANT: Preserve the exact length and fit of the pants/skirt around the waist and legs.";
+      promptNegativo += ", missing legs, shorts instead of pants";
+    } else {
+      promptEspecifico += " IMPORTANT: Fully preserve the SLEEVES, sleeve length, and collar of the top.";
+      promptNegativo += ", missing sleeves, sleeveless";
+    }
+
+    // 3. A Chamada Real para a IA (Novo Modelo IDM-VTON Oficial)
     const output = await replicate.run(
       "cuuupid/idm-vton:0513734a452173b8173e907e3a59d19a36266e55b48528559432bd21c7d7e985",
       {
@@ -32,34 +48,30 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           garm_img: clothingImage,
           category: category,
 
-          // 🌟 1. TRAVA DE PROPORÇÃO (Protege a imagem original)
+          // TRAVA DE PROPORÇÃO (Protege a imagem original)
           crop: false,
-          is_checked_crop: false, // Dupla garantia para não cortar rostos ou cenários
+          is_checked_crop: false,
 
-          // 🌟 2. PODER DE PROCESSAMENTO (Qualidade do tecido)
+          // PODER DE PROCESSAMENTO (Qualidade do tecido)
           steps: 40,
 
-          // 🌟 3. ORDEM DE FIDELIDADE ABSOLUTA E ESTÉTICA PREMIUM
-          garment_des: "The EXACT garment shown in the reference image. Preserve all original patterns, textures, logos, colors, cuts, collars, and structural details with 100% absolute fidelity. Fit naturally and realistically onto the model's body following the fabric's physical behavior. 4k resolution, total sharpness, cinematic studio lighting, highly detailed.",
-
-          // 🌟 4. A GRADE DE PROTEÇÃO (O que a IA NÂO PODE fazer)
-          negative_prompt: "modified design, wrong color, distorted pattern, missing details, altered logos, different fabric, unnatural fit, mutated clothes, blending with skin, blurry textures, bad anatomy, cropped head, cropped feet, bad lighting",
+          // Injetando as ordens que montamos ali em cima
+          garment_des: promptEspecifico,
+          negative_prompt: promptNegativo,
         }
       }
     );
 
-    // 3. O Replicate retorna a URL da imagem processada com sucesso!
     console.log("Magia concluída!");
 
     // Extraindo a URL real de dentro do objeto complexo do Replicate
     const outputData = Array.isArray(output) ? output[0] : output;
 
     let imageUrl = "";
-    // Verifica se é o novo formato FileOutput do Replicate que exige usar .url()
     if (outputData && typeof outputData === 'object') {
       imageUrl = typeof outputData.url === 'function' ? outputData.url().href : outputData.url;
     } else {
-      imageUrl = String(outputData); // Se for a versão antiga, já é o texto da URL
+      imageUrl = String(outputData);
     }
 
     return res.status(200).json({
@@ -68,10 +80,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     });
 
   } catch (error) {
-    // Isso vai imprimir o erro gigante e vermelho no seu terminal do VS Code
     console.error("ERRO COMPLETO DA IA:", error);
 
-    // Isso vai mandar o erro real para o navegador do usuário
     return res.status(500).json({
       error: `Erro Real: ${error instanceof Error ? error.message : JSON.stringify(error)}`
     });
