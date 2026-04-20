@@ -54,7 +54,7 @@ export const UploadCards: React.FC<UploadCardsProps> = ({
           />
           {clothingImage ? (
              <>
-               <img src={clothingImage.previewUrl} alt="Roupa da Escolha" className="absolute inset-0 w-full h-full object-cover rounded-lg z-0" />
+               <img src={clothingImage.previewUrl} alt="Roupa da Escolha" className="absolute inset-0 w-full h-full object-contain rounded-lg z-0" />
                <div className="absolute inset-0 bg-neutral-900/0 group-hover:bg-neutral-900/30 transition-all rounded-lg z-10 flex items-center justify-center opacity-0 group-hover:opacity-100">
                   <span className="font-label uppercase font-bold text-white tracking-[0.05em] text-sm">Trocar Imagem</span>
                </div>
@@ -85,7 +85,7 @@ export const UploadCards: React.FC<UploadCardsProps> = ({
           />
           {modelImage ? (
              <>
-               <img src={modelImage.previewUrl} alt="Modelo da Escolha" className="absolute inset-0 w-full h-full object-cover rounded-lg z-0" />
+               <img src={modelImage.previewUrl} alt="Modelo da Escolha" className="absolute inset-0 w-full h-full object-contain rounded-lg z-0" />
                <div className="absolute inset-0 bg-neutral-900/0 group-hover:bg-neutral-900/30 transition-all rounded-lg z-10 flex items-center justify-center opacity-0 group-hover:opacity-100">
                   <span className="font-label uppercase font-bold text-white tracking-[0.05em] text-sm">Trocar Imagem</span>
                </div>

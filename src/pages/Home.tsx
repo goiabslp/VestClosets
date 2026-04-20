@@ -21,7 +21,7 @@ export const Home: React.FC = () => {
   return (
     <>
       <Navbar />
-      <main className="flex-grow pt-32 pb-24 px-8 md:px-16 max-w-screen-xl mx-auto w-full flex flex-col min-h-screen">
+      <main className="flex-grow pt-24 pb-24 px-8 md:px-16 max-w-screen-xl mx-auto w-full flex flex-col min-h-screen">
         <HeroSection />
 
         {!resultImage && (
@@ -35,46 +35,56 @@ export const Home: React.FC = () => {
         )}
 
         {resultImage ? (
-          <section className="max-w-4xl mx-auto w-full mt-4 flex flex-col items-center border border-outline-variant/15 p-1 rounded-xl shadow-2xl">
-            <div className="bg-surface-container-lowest rounded-lg overflow-hidden relative w-full aspect-[3/4] md:aspect-video flex items-center justify-center">
+          <section className="max-w-5xl mx-auto w-full mt-4 flex flex-col md:flex-row gap-6 border border-outline-variant/15 p-4 rounded-xl shadow-2xl bg-surface">
+            <div className="bg-surface-container-lowest rounded-lg overflow-hidden relative flex-1 aspect-[3/4] md:aspect-video flex items-center justify-center border border-outline-variant/20">
               <img
                 alt="Resultado gerado pela IA"
-                className="w-full h-full object-cover"
+                className="w-full h-full object-contain"
                 src={resultImage}
               />
+            </div>
 
-              <div className="absolute bottom-8 left-1/2 -translate-x-1/2 glass-panel px-8 py-4 rounded-full flex gap-6 items-center border border-outline-variant/15 shadow-xl">
-                <button
-                  onClick={() => {
+            <div className="flex flex-col justify-center gap-4 md:w-64">
+              <button
+                onClick={async () => {
+                  try {
+                    const response = await fetch(resultImage);
+                    const blob = await response.blob();
+                    const blobUrl = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.href = blobUrl;
+                    link.download = `digital-atelier-${Date.now()}.png`;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    URL.revokeObjectURL(blobUrl);
+                  } catch (error) {
+                    console.error('Download error:', error);
                     const link = document.createElement('a');
                     link.href = resultImage;
                     link.download = `digital-atelier-${Date.now()}.png`;
                     document.body.appendChild(link);
                     link.click();
                     document.body.removeChild(link);
-                  }}
-                  className="flex items-center gap-2 text-on-surface hover:text-secondary transition-colors"
-                >
-                  <span className="material-symbols-outlined" style={{ fontSize: '1.25rem' }}>
-                    download
-                  </span>
-                  <span className="font-label text-[10px] uppercase tracking-[0.05em] font-medium">
-                    Salvar
-                  </span>
-                </button>
-                <div className="w-px h-4 bg-outline-variant/30"></div>
-                <button
-                  onClick={clearStates}
-                  className="flex items-center gap-2 text-on-surface hover:text-secondary transition-colors"
-                >
-                  <span className="material-symbols-outlined" style={{ fontSize: '1.25rem' }}>
-                    refresh
-                  </span>
-                  <span className="font-label text-[10px] uppercase tracking-[0.05em] font-medium">
-                    Tentar Outra
-                  </span>
-                </button>
-              </div>
+                  }
+                }}
+                className="flex items-center justify-center gap-3 bg-secondary text-on-secondary hover:bg-secondary-container hover:text-on-secondary-container transition-colors px-6 py-4 rounded-xl shadow-md font-label text-xs uppercase tracking-[0.05em] font-bold active:scale-[0.98]"
+              >
+                <span className="material-symbols-outlined" style={{ fontSize: '1.25rem' }}>
+                  download
+                </span>
+                Salvar Imagem
+              </button>
+              
+              <button
+                onClick={clearStates}
+                className="flex items-center justify-center gap-3 bg-surface-container-high text-on-surface hover:bg-surface-container-highest transition-colors px-6 py-4 rounded-xl shadow-sm border border-outline-variant/20 font-label text-xs uppercase tracking-[0.05em] font-bold active:scale-[0.98]"
+              >
+                <span className="material-symbols-outlined" style={{ fontSize: '1.25rem' }}>
+                  refresh
+                </span>
+                Tentar Outra
+              </button>
             </div>
           </section>
         ) : (
